@@ -1,33 +1,32 @@
-//Initiate express
-const { application } = require('express');
-const express = require ('express');
-//Initiate path library
+const express = require('express');
 const path = require('path');
-//Selecting port
-const app = express();
-const PORT = 3001;
-//Require JSON file and assign to notes data
-const notesData = require('../../notes.json');
+const { clog } = require('./middleware/clog');
+const api = require('./routes/routes.js');
 
-//Serve from statically public folder.
+const PORT = process.env.PORT || 3001;
+
+const app = express();
+
+// Import custom middleware, "cLog"
+app.use(clog);
+
+// Middleware for parsing JSON and urlencoded form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api', api);
+
 app.use(express.static('public'));
 
-// Return JSON to display notes
-app.get('/', (req, res) => res.json(application.json));
-
-//Setting up routes
-app.get('/', (req,res) => res.send('Navigate to ./index or ./notes'));
-
-//Homepage route
-app.get('/index', (req, res) =>
-res.sendFile(path.join(__dirname, '/public/index.html'))
+// GET Route for homepage
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
-//Notes page Route
+// GET Route for notes page
 app.get('/notes', (req, res) =>
-res.sendFile(path.join(__dirname, '/public/notes.html'))
+  res.sendFile(path.join(__dirname, '/public/pages/notes.html'))
 );
 
 app.listen(PORT, () =>
-console.log(`Notes app listening at http://localhost:${PORT}`)
+  console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
