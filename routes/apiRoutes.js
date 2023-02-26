@@ -1,11 +1,16 @@
 const router = require ('express').Router();
 const save = require('../db/db.json');
+const {
+  readFromFile,
+  writeToFile,
+  readAndAppend,
+} = require ('../helpers/fsUtils');
 
 //Get request for notes
 
 // Add code which opens uo the file and writes it into the array,
 // exercises at the back end of the week. Append, read, write...
-// 24 feedback.js example fsUtils exampls.
+// 24 feedback.js example fsUtils examples.
 router.get('/notes', (req, res) => { save ()
       .then((notes) => { return res.json(notes); })
       .catch((err => res.status(500).json(err)));
@@ -23,7 +28,7 @@ router.post('/notes', (req, res) => { save
     .then((note) => res.json(note))
     .catch((err) => res.status(500).json(err));
 
-  const { username, topic, tip } = req.body;
+  const { title, text } = req.body;
 
   if (req.body) {
     const newNote = {
