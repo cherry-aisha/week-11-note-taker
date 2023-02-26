@@ -1,4 +1,4 @@
-const fb = require('express').Router();
+const note = require('express').Router();
 const { readAndAppend } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
 
@@ -27,7 +27,7 @@ note.post('/', (req, res) => {
       body: newNote,
     };
 
-    res.json(response);
+    res.json(newNote);
   } else {
     res.json('Error in posting note');
   }
@@ -107,4 +107,4 @@ router.delete('/notes/:id', (req, res) => { save
 });
 
 //Export the module
-module.exports = router;
+module.exports = router;*/
